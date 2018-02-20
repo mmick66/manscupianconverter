@@ -154,7 +154,7 @@ export default class ConvertArea extends React.Component {
 
         let placeholder;
         if (this.state.rendered) {
-            placeholder = <img alt={'Thumbnail'} src={`.${this.state.rendered}`} style={{ maxHeight: '100%', maxWidth: '100%' }} />;
+            placeholder = <img alt={'Thumbnail'} src={`${this.state.rendered}`} style={{ maxHeight: '100%', maxWidth: '100%' }} />;
         } else {
             placeholder = <p className={'dropText'}>{Defaults.Strings.DragHere}</p>;
         }

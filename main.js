@@ -1,18 +1,40 @@
 import { app, BrowserWindow } from 'electron';
 
-let mainWindow = null;
+let mainWindow;
+
+const isDevMode = process.execPath.match(/[\\/]electron/);
+
+const createWindow = () => {
+
+    mainWindow = new BrowserWindow({
+        width: 600,
+        height: 550,
+    });
+
+    mainWindow.setResizable(false);
+
+    mainWindow.loadURL(`file://${__dirname}/index.html`);
+
+    if (isDevMode) {
+        mainWindow.webContents.openDevTools();
+    }
+
+    mainWindow.on('closed', () => {
+        mainWindow = null;
+    });
+};
+
+app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
-  if (process.platform != 'darwin') {
-    app.quit();
-  }
+    if (process.platform !== 'darwin') {
+        app.quit(); // when window closed quit except for MacOS
+    }
 });
 
-app.on('ready', () => {
-  mainWindow = new BrowserWindow({width: 800, height: 600});
-  mainWindow.loadURL('file://' + __dirname + '/index.html');
-  mainWindow.openDevTools();
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
+app.on('activate', () => {
+    if (mainWindow === null) {
+        createWindow();
+    }
 });
+
