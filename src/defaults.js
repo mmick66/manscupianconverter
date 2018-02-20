@@ -1,6 +1,5 @@
 const Paths = {
-    Temp: './temp',
-    Out: './final'
+    Converted: './converted'
 };
 
 const Size = {

@@ -3,9 +3,14 @@
   "version": "0.1.0",
   "main": "main.js",
   "license": "MIT",
+  "author": "Michael Michailidis",
+  "homepage": "./",
   "repository": "b52/electron-es6-react",
+  "description": "This is a convertion tool from RAF (Fugi Raw Format) to PNG with Resizing",
   "scripts": {
-    "start": "electron -r babel-register ."
+    "start": "electron -r babel-register .",
+    "package": "build --em.main=build/main.js",
+    "postinstall": "electron-rebuild"
   },
   "dependencies": {
     "antd": "^3.2.1",
@@ -22,5 +27,15 @@
   "devDependencies": {
     "electron": "^1.4.3",
     "electron-rebuild": "^1.7.3"
+  },
+  "build": {
+    "appId": "com.karmadust.mancuspianconvert",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories":{
+      "buildResources": "assets"
+    }
   }
 }

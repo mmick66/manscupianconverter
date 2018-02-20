@@ -29,16 +29,12 @@ export default class ConvertArea extends React.Component {
             target: {
                 width: Defaults.Size.Width,
                 height: Defaults.Size.Height,
-                path: Defaults.Paths.Out,
+                path: Defaults.Paths.Converted,
             },
         };
 
-        if (!fs.existsSync(Defaults.Paths.Temp)) {
-            fs.mkdirSync(Defaults.Paths.Temp);
-        }
-
-        if (!fs.existsSync(Defaults.Paths.Out)) {
-            fs.mkdirSync(Defaults.Paths.Out);
+        if (!fs.existsSync(Defaults.Paths.Converted)) {
+            fs.mkdirSync(Defaults.Paths.Converted);
         }
 
         this.onFilesDrop = this.onFilesDrop.bind(this);
@@ -72,8 +68,7 @@ export default class ConvertArea extends React.Component {
             },
         });
 
-        const dest = `${Defaults.Paths.Temp}/${parsed.name}`
-
+        const dest = `${Defaults.Paths.Converted}/${parsed.name}`;
 
         libraw.extractThumb(file.path, dest).then((output) => {
 
@@ -100,7 +95,7 @@ export default class ConvertArea extends React.Component {
 
         console.log(this.state.target.path);
 
-        libraw.extract(file.path, `${Defaults.Paths.Temp}/${file.name}`).then((output) => {
+        libraw.extract(file.path, `${Defaults.Paths.Converted}/${file.name}`).then((output) => {
 
             const final = `${this.state.target.path}/${file.name}.png`;
 
