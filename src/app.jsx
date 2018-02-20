@@ -4,7 +4,11 @@ import React from 'react';
 
 import { Layout } from 'antd';
 
+
+import ConvertArea from './convert';
+
 const { Footer, Content, Header } = Layout;
+
 
 export default class App extends React.Component {
   render() {
@@ -22,7 +26,7 @@ export default class App extends React.Component {
             <Content>
                 <div className={'mainContent'}>
 
-
+                    <ConvertArea />
                 </div>
 
             </Content>
