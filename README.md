@@ -5,6 +5,8 @@ You can download sample images to test the app [here](https://www.rawsamples.ch/
 
 ![App Image](https://github.com/mmick66/manscupianconverter/blob/master/assets/screenshot.png)
 
+It was built using [Electron] and [Antd] for the UI.
+
 ## Installation
 
 ```bash
@@ -26,6 +28,7 @@ Then look inside the `pack` folder of this repo for the compiled app.
 
 The [Mancuspia] are imaginary creatures invented by the Argentinian author [Julio Cortázar]. 
 They are **not** necessarily resembling the logo of this application but an exact description was always left up the reader's imagination.  
-
+[Electron]: https://electronjs.org/
+[Antd]: https://ant.design/
 [Mancuspia]: https://es.wikipedia.org/wiki/Mancuspia
 [Julio Cortázar]: https://en.wikipedia.org/wiki/Julio_Cort%C3%A1zar
