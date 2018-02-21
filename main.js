@@ -11,12 +11,12 @@ const createWindow = () => {
         height: 550,
     });
 
-    mainWindow.setResizable(false);
-
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 
     if (isDevMode) {
         mainWindow.webContents.openDevTools();
+    } else {
+        mainWindow.setResizable(false);
     }
 
     mainWindow.on('closed', () => {

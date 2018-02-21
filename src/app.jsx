@@ -5,7 +5,7 @@ import React from 'react';
 import { Layout } from 'antd';
 
 
-import ConvertArea from './convert';
+import ConvertArea from './convert.area.component';
 
 const { Footer, Content, Header } = Layout;
 
