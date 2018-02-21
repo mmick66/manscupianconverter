@@ -58,6 +58,8 @@ export default class ConvertArea extends React.Component {
 
         this.converter.convert().then((outpath) => {
 
+            console
+
             shell.openItem(outpath);
 
             this.setState({ converting: false, thumbnail: null, });
@@ -92,7 +94,6 @@ export default class ConvertArea extends React.Component {
         });
 
     }
-
 
 
     handleChangedSettings() {

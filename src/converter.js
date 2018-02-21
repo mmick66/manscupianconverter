@@ -27,9 +27,6 @@ export default class Converter {
 
     }
 
-    get imageRatio() {
-        return this.image ? this.image.ratio : 0;
-    }
 
     get outputDimensions() {
         return this.size;
@@ -74,11 +71,13 @@ export default class Converter {
                 .extract(this.image.path, `${this.dir.temp}/${this.image.name}`)
                 .then((outpath) => {
 
+                    const finalpath = `${this.dir.out}/${this.image.name}.png`;
+
                     sharp(outpath)
                         .png()
                         .resize(this.size.width, this.size.height)
-                        .toFile(`${this.dir.out}/${this.image.name}.png`)
-                        .then(() => res(outpath), (error) => rej(error));
+                        .toFile(finalpath)
+                        .then(() => res(finalpath), (error) => rej(error));
 
             }, (error) => rej(error));
 
