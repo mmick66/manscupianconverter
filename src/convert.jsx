@@ -3,6 +3,8 @@ import Dropzone from 'react-dropzone';
 
 import libraw from 'libraw';
 
+import mkdirp from 'mkdirp';
+
 import { Button, message, Modal } from 'antd';
 
 import fs from 'fs';
@@ -33,8 +35,10 @@ export default class ConvertArea extends React.Component {
             },
         };
 
+
+
         if (!fs.existsSync(Defaults.Paths.Converted)) {
-            fs.mkdirSync(Defaults.Paths.Converted);
+            mkdirp.sync(Defaults.Paths.Converted);
         }
 
         this.onFilesDrop = this.onFilesDrop.bind(this);

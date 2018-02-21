@@ -1,5 +1,7 @@
+import os from 'os';
+
 const Paths = {
-    Converted: './converted'
+    Converted: os.homedir() + '/MancuspiaConvert'
 };
 
 const Size = {

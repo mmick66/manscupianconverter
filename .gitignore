@@ -1,6 +1,12 @@
 node_modules
+
+# WebStorm Project File
 .idea
-DS_Store
+
+# MacOS X Finder File
+.DS_Store
+
 package-lock.json
-converted
-dist
+
+# Output Folder
+packed

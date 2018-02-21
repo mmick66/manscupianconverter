@@ -1,7 +1,7 @@
 {
-  "name": "electron-es6-react",
+  "name": "Mancuspian-Convert",
   "version": "0.1.0",
-  "main": "main.js",
+  "main": "index.js",
   "license": "MIT",
   "author": "Michael Michailidis",
   "homepage": "./",
@@ -9,8 +9,8 @@
   "description": "This is a convertion tool from RAF (Fugi Raw Format) to PNG with Resizing",
   "scripts": {
     "start": "electron -r babel-register .",
-    "package": "build --em.main=build/main.js",
-    "postinstall": "electron-rebuild"
+    "package": "electron-packager . --icon=assets/icon.icns --overwrite --out=packed --prune=true",
+    "postinstall": "electron-builder install-app-deps"
   },
   "dependencies": {
     "antd": "^3.2.1",
@@ -19,13 +19,17 @@
     "babel-register": "^6.3.13",
     "image-size": "^0.6.2",
     "libraw": "^0.1.4",
+    "mkdirp": "^0.5.1",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-dropzone": "^4.2.8",
     "sharp": "^0.19.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "electron": "^1.4.3",
+    "electron-builder": "^20.0.6",
+    "electron-packager": "^11.0.1",
     "electron-rebuild": "^1.7.3"
   },
   "build": {
@@ -34,7 +38,7 @@
       "build/**/*",
       "node_modules/**/*"
     ],
-    "directories":{
+    "directories": {
       "buildResources": "assets"
     }
   }
