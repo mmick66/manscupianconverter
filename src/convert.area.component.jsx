@@ -99,7 +99,10 @@ export default class ConvertArea extends React.Component {
     render() {
 
         const thumbnail = (
-            <img alt={'Thumbnail'} src={`${this.state.thumbnail}`} style={{ maxHeight: '100%', maxWidth: '100%' }} />
+            <div className={'imageContainer'}>
+                <img alt={'Thumbnail'} src={`${this.state.thumbnail}`} style={{ maxHeight: '100%', maxWidth: '100%' }} />
+            </div>
+
         );
 
         const dropZone = (
