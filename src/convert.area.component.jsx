@@ -1,14 +1,13 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 
-import { Button, Modal } from 'antd';
+import { Button, Modal, message } from 'antd';
 
 import Converter from './converter';
 
-import { shell } from 'electron';
+import { shell, remote } from 'electron';
 import Defaults from './defaults';
-import SettingsForm from './settings.form';
-
+import SettingsForm from './settings.form.component';
 
 export default class ConvertArea extends React.Component {
 
@@ -27,6 +26,7 @@ export default class ConvertArea extends React.Component {
         this.chooseFileOutput = this.chooseFileOutput.bind(this);
 
         this.handleChangedSettings = this.handleChangedSettings.bind(this);
+
     }
 
     onFilesDrop(files) {
@@ -77,6 +77,22 @@ export default class ConvertArea extends React.Component {
 
     chooseFileOutput() {
 
+
+        remote.dialog.showOpenDialog({
+            properties: ['openFile', 'openDirectory', 'multiSelections']
+        }, (paths) => {
+            const path = paths[0];
+            if (path) {
+                this.converter.setOutputPath(path);
+                message.success(Defaults.Strings.SelectedDirectory);
+            } else {
+                Modal.error({
+                    title: 'Error de selección',
+                    content: Defaults.Strings.CannotSelectDir,
+                });
+            }
+        });
+
     }
 
 
@@ -122,7 +138,7 @@ export default class ConvertArea extends React.Component {
 
                   <Button type="primary"
                           loading={this.state.converting}
-                          style={{ marginRight: '12px' }}
+                          className={'spacedButton'}
                           disabled={!this.state.thumbnail}
                           onClick={this.startConvertion}>
                       Iniciar Conversión
@@ -141,8 +157,14 @@ export default class ConvertArea extends React.Component {
                   <Button type="default"
                           shape="circle"
                           icon="setting"
+                          className={'spacedButton'}
                           disabled={!this.state.thumbnail}
                           onClick={() => this.setState({ settingsModalOpen: true })} />
+
+                  <Button type="default"
+                          shape="circle"
+                          icon="folder-open"
+                          onClick={this.chooseFileOutput} />
 
               </div>
 

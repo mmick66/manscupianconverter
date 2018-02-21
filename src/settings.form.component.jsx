@@ -50,9 +50,6 @@ class SettingsForm extends React.Component {
         callback();
     }
 
-    changePath() {
-
-    }
 
     render() {
 

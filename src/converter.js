@@ -17,11 +17,14 @@ export default class Converter {
             width: options.width || Defaults.Size.Width,
             height: options.width || Defaults.Size.Height
         };
-        this.out = options.out || Defaults.Paths.Out;
 
-        if (!fs.existsSync(this.out)) {
-            mkdirp.sync(this.out);
-        }
+        this.dir = {
+            temp: options.temp || Defaults.Paths.Temp,
+            out: options.out || Defaults.Paths.Out
+        };
+
+        if (!fs.existsSync(this.dir.temp)) mkdirp.sync(this.dir.temp);
+
     }
 
     set width(value) {
@@ -32,6 +35,11 @@ export default class Converter {
         this.size.height = value;
     }
 
+    setOutputPath(value) {
+        this.dir.out = value;
+    }
+
+
     load(filePath) {
         this.image = new ImageFile(filePath);
     }
@@ -40,16 +48,16 @@ export default class Converter {
 
         return new Promise((res, rej) => {
 
-            libraw.extractThumb(this.image.path, `${this.out}/${this.image.name}.thumb.${this.image.type}`).then((outpath) => {
+            libraw
+                .extractThumb(this.image.path, `${this.dir.temp}/${this.image.name}.thumb.${this.image.type}`)
+                .then((outpath) => {
 
-                const size = sizeOf(outpath);
+                    const size = sizeOf(outpath);
 
-                this.image.ratio = size.height / size.width;
-                res(outpath);
+                    this.image.ratio = size.height / size.width;
+                    res(outpath);
 
-            }, (error) => {
-                rej(error);
-            });
+            }, (error) => rej(error));
         });
 
     }
@@ -58,20 +66,17 @@ export default class Converter {
 
         return new Promise((res, rej) => {
 
-            const out = `${this.out}/${this.image.name}`;
-            libraw.extract(this.image.path, out).then((outpath) => {
+            libraw
+                .extract(this.image.path, `${this.dir.temp}/${this.image.name}`)
+                .then((outpath) => {
 
-                sharp(outpath).png().resize(this.size.width, this.size.height).toFile(`${out}.png`).then(() => {
+                    sharp(outpath)
+                        .png()
+                        .resize(this.size.width, this.size.height)
+                        .toFile(`${this.dir.out}/${this.image.name}.png`)
+                        .then(() => res(outpath), (error) => rej(error));
 
-                    res(outpath);
-
-                }, (error) => {
-                    rej(error);
-                });
-
-            }, (error) => {
-                rej(error);
-            });
+            }, (error) => rej(error));
 
         });
     }

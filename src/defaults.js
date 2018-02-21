@@ -1,7 +1,10 @@
 import os from 'os';
 
+const defpath = os.homedir() + '/MancuspiaConvert';
+
 const Paths = {
-    Out: os.homedir() + '/MancuspiaConvert'
+    Out: defpath,
+    Temp: defpath
 };
 
 const Size = {
@@ -13,6 +16,8 @@ const Strings = {
     ValueNotNumeric: 'El valor no es numérico',
     DragHere: 'Prueba a soltar algunos archivos aquí...',
     CannotConvert: 'No se pudo convertir esta imagen',
+    CannotSelectDir: 'No se pudo seleccionar el directorio',
+    SelectedDirectory: 'Nuevo directorio seleccionado',
 };
 
 
