@@ -27,12 +27,19 @@ export default class Converter {
 
     }
 
-    set width(value) {
-        this.size.width = value;
+    get imageRatio() {
+        return this.image ? this.image.ratio : 0;
     }
 
-    set height(value) {
-        this.size.height = value;
+    get outputDimensions() {
+        return this.size;
+    }
+
+    setOutputDimentions(width, height) {
+        this.size = {
+            width: width,
+            height: height
+        };
     }
 
     setOutputPath(value) {
@@ -42,25 +49,22 @@ export default class Converter {
 
     load(filePath) {
         this.image = new ImageFile(filePath);
-    }
-
-    thumbnail() {
 
         return new Promise((res, rej) => {
 
             libraw
                 .extractThumb(this.image.path, `${this.dir.temp}/${this.image.name}.thumb.${this.image.type}`)
-                .then((outpath) => {
+                .then((thumbpath) => {
 
-                    const size = sizeOf(outpath);
+                    const size = sizeOf(thumbpath);
 
                     this.image.ratio = size.height / size.width;
-                    res(outpath);
+                    res(thumbpath);
 
-            }, (error) => rej(error));
+                }, (error) => rej(error));
         });
-
     }
+
 
     convert() {
 

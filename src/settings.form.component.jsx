@@ -10,12 +10,13 @@ const isValidNumber = value => /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/.test(value);
 class SettingsForm extends React.Component {
 
     constructor(props) {
+
         super(props);
 
         this.validateHeight = this.validateHeight.bind(this);
         this.validateWidth = this.validateWidth.bind(this);
 
-        this.ratio = props.target.height / props.target.width;
+        this.ratio = this.props.dimensions.height / this.props.dimensions.width;
     }
 
     validateWidth(rule, value, callback) {
@@ -60,7 +61,7 @@ class SettingsForm extends React.Component {
             <Form layout="inline">
                 <Form.Item label="Anchura">
                     {getFieldDecorator('width', {
-                        initialValue: this.props.target.width,
+                        initialValue: this.props.dimensions.width,
                         rules: [{
                             validator: this.validateWidth,
                         }],
@@ -71,7 +72,7 @@ class SettingsForm extends React.Component {
 
                 <Form.Item label="Altura">
                     {getFieldDecorator('height', {
-                        initialValue: this.props.target.height,
+                        initialValue: this.props.dimensions.height,
                         rules: [{
                             validator: this.validateHeight,
                         }],

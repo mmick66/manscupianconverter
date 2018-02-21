@@ -37,9 +37,7 @@ export default class ConvertArea extends React.Component {
 
         const file = files[0];
 
-        this.converter.load(file.path);
-
-        this.converter.thumbnail().then((thumbpath) => {
+        this.converter.load(file.path).then((thumbpath) => {
             this.setState({
                 thumbnail: thumbpath,
             });
@@ -101,13 +99,8 @@ export default class ConvertArea extends React.Component {
 
         this.form.validateFields((errors, values) => {
 
-            this.setState({
-                target: {
-                    width: values.width,
-                    height: values.height
-                },
-                settingsModalOpen: false,
-            });
+            this.converter.setOutputDimentions(values.width, values.height);
+            this.setState({ settingsModalOpen: false, });
         });
 
     }
@@ -151,7 +144,7 @@ export default class ConvertArea extends React.Component {
                       onCancel={() => this.setState({ settingsModalOpen: false })}
                       onOk={this.handleChangedSettings}>
                       <SettingsForm ref={form => (this.form = form)}
-                                    target={this.state.target} />
+                                    dimensions={this.converter.outputDimensions} />
                   </Modal>
 
                   <Button type="default"
