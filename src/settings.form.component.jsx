@@ -2,7 +2,7 @@ import React from 'react';
 
 const {dialog} = require('electron')
 
-import { Form, Input, Upload, Button } from 'antd';
+import { Form, Input, Select } from 'antd';
 import Defaults from './defaults';
 
 const isValidNumber = value => /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/.test(value);
@@ -66,7 +66,7 @@ class SettingsForm extends React.Component {
                             validator: this.validateWidth,
                         }],
                     })(
-                        <Input />
+                        <Input style={{ width: 80 }} />
                     )}
                 </Form.Item>
 
@@ -77,10 +77,20 @@ class SettingsForm extends React.Component {
                             validator: this.validateHeight,
                         }],
                     })(
-                        <Input />
+                        <Input style={{ width: 80 }} />
                     )}
                 </Form.Item>
 
+                <Form.Item label="Formato">
+                    {getFieldDecorator('format', {
+                        initialValue: this.props.format
+                    })(
+                        <Select style={{ width: 90 }}>
+                            <Option value="PNG">PNG</Option>
+                            <Option value="JPG">JPEG</Option>
+                        </Select>
+                    )}
+                </Form.Item>
 
             </Form>
         );

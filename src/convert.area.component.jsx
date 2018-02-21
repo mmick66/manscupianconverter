@@ -1,7 +1,7 @@
 import React from 'react';
 import Dropzone from 'react-dropzone';
 
-import { Button, Modal, message } from 'antd';
+import { Button, Modal, Checkbox, message } from 'antd';
 
 import Converter from './converter';
 
@@ -17,6 +17,7 @@ export default class ConvertArea extends React.Component {
             files: [],
             settingsModalOpen: false,
             thumbnail: null,
+            openInPreview: true,
         };
 
         this.converter = new Converter();
@@ -26,6 +27,8 @@ export default class ConvertArea extends React.Component {
         this.chooseFileOutput = this.chooseFileOutput.bind(this);
 
         this.handleChangedSettings = this.handleChangedSettings.bind(this);
+
+        this.handleCheck = this.handleCheck.bind(this);
 
     }
 
@@ -42,7 +45,6 @@ export default class ConvertArea extends React.Component {
                 thumbnail: thumbpath,
             });
         }).catch((error) => {
-            console.log(error);
             Modal.error({
                 title: 'Error de conversión',
                 content: Defaults.Strings.CannotConvert,
@@ -56,27 +58,34 @@ export default class ConvertArea extends React.Component {
 
         this.setState({ converting: true });
 
-        this.converter.convert().then((outpath) => {
+        const doConvertionAfterDelay = () => {
 
-            console
+            this.converter.convert().then((outpath) => {
 
-            shell.openItem(outpath);
+                this.setState({ converting: false, thumbnail: null, });
 
-            this.setState({ converting: false, thumbnail: null, });
+                if (this.state.openInPreview) {
+                    shell.openItem(outpath);
+                } else {
+                    message.success('Saved at ' + outpath);
+                }
 
-        }).catch((error) => {
-            console.log(error);
-            Modal.error({
-                title: 'Error de conversión',
-                content: Defaults.Strings.CannotConvert,
+
+            }).catch((error) => {
+                console.log(error);
+                Modal.error({
+                    title: 'Error de conversión',
+                    content: Defaults.Strings.CannotConvert,
+                });
             });
-        });
 
+        };
+
+        setTimeout(doConvertionAfterDelay, Defaults.Values.CosmeticDelay);
 
     }
 
     chooseFileOutput() {
-
 
         remote.dialog.showOpenDialog({
             properties: ['openFile', 'openDirectory', 'multiSelections']
@@ -101,9 +110,17 @@ export default class ConvertArea extends React.Component {
         this.form.validateFields((errors, values) => {
 
             this.converter.setOutputDimentions(values.width, values.height);
+            this.converter.format = values.format;
             this.setState({ settingsModalOpen: false, });
         });
 
+    }
+
+    handleCheck(e) {
+
+        this.setState({
+            openInPreview: e.target.checked
+        });
     }
 
     render() {
@@ -145,7 +162,8 @@ export default class ConvertArea extends React.Component {
                       onCancel={() => this.setState({ settingsModalOpen: false })}
                       onOk={this.handleChangedSettings}>
                       <SettingsForm ref={form => (this.form = form)}
-                                    dimensions={this.converter.outputDimensions} />
+                                    dimensions={this.converter.outputDimensions}
+                                    format={this.converter.format} />
                   </Modal>
 
                   <Button type="default"
@@ -158,7 +176,15 @@ export default class ConvertArea extends React.Component {
                   <Button type="default"
                           shape="circle"
                           icon="folder-open"
+                          className={'spacedButton'}
                           onClick={this.chooseFileOutput} />
+
+
+                  <Checkbox onChange={this.handleCheck}
+                            checked={this.state.openInPreview}
+                            style={{ float: 'right' }}>
+                      Open in Preview
+                  </Checkbox>
 
               </div>
 

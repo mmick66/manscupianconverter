@@ -23,6 +23,8 @@ export default class Converter {
             out: options.out || Defaults.Paths.Out
         };
 
+        this.format = Converter.Format.PNG;
+
         if (!fs.existsSync(this.dir.temp)) mkdirp.sync(this.dir.temp);
 
     }
@@ -58,7 +60,8 @@ export default class Converter {
                     this.image.ratio = size.height / size.width;
                     res(thumbpath);
 
-                }, (error) => rej(error));
+                }).catch((error) => rej(error));
+
         });
     }
 
@@ -71,10 +74,21 @@ export default class Converter {
                 .extract(this.image.path, `${this.dir.temp}/${this.image.name}`)
                 .then((outpath) => {
 
-                    const finalpath = `${this.dir.out}/${this.image.name}.png`;
+                    console.log(this.format);
 
-                    sharp(outpath)
-                        .png()
+                    let sharpAPI = sharp(outpath);
+                    switch (this.format) {
+                        case Converter.Format.PNG:
+                            sharpAPI = sharpAPI.png();
+                            break;
+                        case Converter.Format.JPG:
+                            sharpAPI = sharpAPI.jpeg();
+                            break;
+                    }
+
+                    const finalpath = `${this.dir.out}/${this.image.name}.${this.format.toLowerCase()}`;
+
+                    sharpAPI
                         .resize(this.size.width, this.size.height)
                         .toFile(finalpath)
                         .then(() => res(finalpath), (error) => rej(error));
@@ -84,3 +98,8 @@ export default class Converter {
         });
     }
 }
+
+Converter.Format = {
+    PNG: 'PNG',
+    JPG: 'JPG',
+};
