@@ -28,5 +28,4 @@ Then look inside the `pack` folder of this repo for the compiled app.
 
 ## About the name and logo
 
-The [Mancuspia](https://es.wikipedia.org/wiki/Mancuspia) are imaginary creatures invented by the Argentinian author [Julio Cortázar](https://en.wikipedia.org/wiki/Julio_Cort%C3%A1zar). 
-Although **not**  necessarily resembling the logo, an exact description was always left to the reader's imagination. 
+The [Mancuspia](https://es.wikipedia.org/wiki/Mancuspia) are imaginary creatures invented by the Argentinian author [Julio Cortázar](https://en.wikipedia.org/wiki/Julio_Cort%C3%A1zar). An exact depiction was always left to the reader's imagination. 
