@@ -18,7 +18,7 @@ npm install
 npm start
 ```
 
-## Packaging into an App
+## Building it into an App
 
 This app uses `electron-builder` for compilation so put assets such as icons inside of the `build` folder
 
