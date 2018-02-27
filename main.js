@@ -19,8 +19,6 @@ const createWindow = () => {
         mainWindow.setResizable(false);
     }
 
-    mainWindow.webContents.openDevTools();
-
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
