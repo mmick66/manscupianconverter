@@ -24,10 +24,17 @@ const Strings = {
     SelectedDirectory: 'Nuevo directorio seleccionado',
 };
 
+const Messages = {
+    StartConvertion: 'start-convertion',
+    ConvertionComplete: 'convertion-complete',
+    ConvertionError: 'convertion-error'
+};
+
 
 export default {
     Paths: Paths,
     Size: Size,
     Strings: Strings,
     Values: Values,
+    Messages: Messages,
 };

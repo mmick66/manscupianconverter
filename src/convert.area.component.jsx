@@ -5,7 +5,7 @@ import { Button, Modal, Checkbox, message } from 'antd';
 
 import Converter from './converter';
 
-import { shell, remote } from 'electron';
+import { shell, remote, ipcRenderer } from 'electron';
 import Defaults from './defaults';
 import SettingsForm from './settings.form.component';
 
@@ -29,6 +29,26 @@ export default class ConvertArea extends React.Component {
         this.handleChangedSettings = this.handleChangedSettings.bind(this);
 
         this.handleCheck = this.handleCheck.bind(this);
+
+        ipcRenderer.on(Defaults.Messages.ConvertionComplete, (event, outpath) => {
+            this.setState({ converting: false, thumbnail: null, });
+
+            if (this.state.openInPreview) {
+                shell.openItem(outpath);
+            } else {
+                message.success('Saved at ' + outpath);
+            }
+        });
+
+        ipcRenderer.on(Defaults.Messages.ConvertionError, (event, error) => {
+            this.setState({ converting: false, });
+
+            console.log(error);
+            Modal.error({
+                title: 'Error de conversión',
+                content: Defaults.Strings.CannotConvert,
+            });
+        });
 
     }
 
@@ -58,30 +78,7 @@ export default class ConvertArea extends React.Component {
 
         this.setState({ converting: true });
 
-        const doConvertionAfterDelay = () => {
-
-            this.converter.convert().then((outpath) => {
-
-                this.setState({ converting: false, thumbnail: null, });
-
-                if (this.state.openInPreview) {
-                    shell.openItem(outpath);
-                } else {
-                    message.success('Saved at ' + outpath);
-                }
-
-
-            }).catch((error) => {
-                console.log(error);
-                Modal.error({
-                    title: 'Error de conversión',
-                    content: Defaults.Strings.CannotConvert,
-                });
-            });
-
-        };
-
-        setTimeout(doConvertionAfterDelay, Defaults.Values.CosmeticDelay);
+        ipcRenderer.send(Defaults.Messages.StartConvertion, this.converter.image.path);
 
     }
 

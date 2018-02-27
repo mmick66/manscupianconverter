@@ -6,6 +6,7 @@ export default class ImageFile {
 
         this.parsed = path.parse(fileFullPath);
         this.ratio = 1.0;
+
     }
 
     get name() {
@@ -19,4 +20,5 @@ export default class ImageFile {
     get path() {
         return `${this.parsed.dir}/${this.parsed.base}`;
     }
+
 };

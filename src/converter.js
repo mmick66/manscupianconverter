@@ -27,6 +27,10 @@ export default class Converter {
 
         if (!fs.existsSync(this.dir.temp)) mkdirp.sync(this.dir.temp);
 
+        if (options.load) {
+            this.image = new ImageFile(options.load);
+        }
+
     }
 
 
@@ -47,6 +51,7 @@ export default class Converter {
 
 
     load(filePath) {
+
         this.image = new ImageFile(filePath);
 
         return new Promise((res, rej) => {

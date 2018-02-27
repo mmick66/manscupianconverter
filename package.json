@@ -21,6 +21,7 @@
     "image-size": "^0.6.2",
     "libraw": "^0.1.4",
     "mkdirp": "^0.5.1",
+    "query-string": "^5.1.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-dropzone": "^4.2.8",
