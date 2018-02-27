@@ -57,17 +57,35 @@ export default class Converter {
         return new Promise((res, rej) => {
 
             libraw
-                .extractThumb(this.image.path, `${this.dir.temp}/${this.image.name}.thumb.${this.image.type}`)
-                .then((thumbpath) => {
+                .extractThumb(this.image.path, `${this.dir.temp}/${this.image.name}`) // adds 'thumb.jpg at the end
+                .then((path) => {
 
-                    const size = sizeOf(thumbpath);
+                    this.image.thumbnail = path;
 
-                    this.image.ratio = size.height / size.width;
-                    res(thumbpath);
+                    res(path);
 
                 }).catch((error) => rej(error));
-
         });
+    }
+
+
+    resize(height) {
+
+        return new Promise((res, rej) => {
+
+            if (!this.image) rej('Need to load image before resizing');
+
+            const width = Math.round(height * this.image.ratio);
+
+            const out = `${this.dir.temp}/${this.image.name}.render.jpg`;
+
+            return sharp(this.image.thumbnail)
+                .resize(width, height)
+                .toFile(out).then(() => {
+                    res(out);
+                });
+        });
+
     }
 
 

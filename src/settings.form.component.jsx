@@ -1,6 +1,6 @@
 import React from 'react';
 
-const {dialog} = require('electron')
+const {dialog} = require('electron');
 
 import { Form, Input, Select } from 'antd';
 import Defaults from './defaults';

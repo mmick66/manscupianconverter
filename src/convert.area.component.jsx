@@ -10,6 +10,7 @@ import Converter from './converter';
 import { shell, remote, ipcRenderer } from 'electron';
 import Defaults from './defaults';
 import SettingsForm from './settings.form.component';
+import sharp from "sharp";
 
 export default class ConvertArea extends React.Component {
 
@@ -31,6 +32,8 @@ export default class ConvertArea extends React.Component {
         this.handleChangedSettings = this.handleChangedSettings.bind(this);
 
         this.handleCheck = this.handleCheck.bind(this);
+
+        this.onCropChange = this.onCropChange.bind(this);
 
         ipcRenderer.on(Defaults.Messages.ConvertionComplete, (event, outpath) => {
             this.setState({ converting: false, thumbnail: null, });
@@ -62,10 +65,17 @@ export default class ConvertArea extends React.Component {
 
         const file = files[0];
 
-        this.converter.load(file.path).then((thumbpath) => {
-            this.setState({
-                thumbnail: thumbpath,
+        const height = document.querySelector('.dropzone').clientHeight;
+
+        this.converter.load(file.path).then(() => {
+
+            this.converter.resize(height).then(render => {
+
+                this.setState({
+                    thumbnail: render
+                })
             });
+
         }).catch((error) => {
             console.log(error);
             Modal.error({
@@ -123,30 +133,35 @@ export default class ConvertArea extends React.Component {
         });
     }
 
-    render() {
+    onCropChange(arg) {
+        console.log(arg);
+    }
 
-        const thumbnail = (
-            <div className={'imageContainer'}>
-                <img alt={'Thumbnail'} src={this.state.thumbnail} style={{ maxHeight: '100%', maxWidth: '100%' }} />
-            </div>
-
+    static makeCropArea(source, onChange) {
+        return (
+            <ReactCrop src={source} onChange={onChange} />
         );
+    }
 
-        // const crop = (
-        //     <ReactCrop src="path/to/image.jpg" />
-        // );
-
-        const dropZone = (
-            <Dropzone className={'dropzone'} onDrop={this.onFilesDrop} onClick={() => {}}>
+    static makeDropZone(dropHandler) {
+        return (
+            <Dropzone className={'mainAreaContent dropzone'}
+                      onDrop={dropHandler}
+                      onClick={() => {}}>
                 <p className={'dropText'}>{Defaults.Strings.DragHere}</p>
             </Dropzone>
         );
+    }
+
+    render() {
 
         return (
           <div>
 
               <div className={'mainArea'}>
-                  { this.state.thumbnail ? thumbnail : dropZone }
+                  { this.state.thumbnail ?
+                      ConvertArea.makeCropArea(this.state.thumbnail, this.onCropChange) :
+                      ConvertArea.makeDropZone(this.onFilesDrop) }
               </div>
 
               <div className={'controls'}>
