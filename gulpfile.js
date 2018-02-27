@@ -2,9 +2,14 @@ const spawn     = require('child_process').spawn;
 const gulp      = require('gulp');
 const maps      = require('gulp-sourcemaps');
 const babel     = require('gulp-babel');
-const concat    = require('gulp-concat');
 const css       = require('gulp-minify-css');
 const rename    = require('gulp-rename');
+const change    = require('change-case');
+const del       = require('del');
+
+gulp.task('clean',  () => {
+    return del('app/**/*');
+});
 
 /* Build */
 
@@ -12,7 +17,7 @@ const cssFiles = [
     'src/**/*.css',
 ];
 
-gulp.task('build-css', function() {
+gulp.task('build-css', () => {
     return gulp.src(cssFiles)
         .pipe(css())
         .pipe(rename('all.css'))
@@ -46,13 +51,17 @@ const htmlFiles = [
 ];
 
 const cssToCopy = [
-    'react-image-crop/dist/ReactCrop.css',
-    'antd/dist/antd.css'
-].map((path) => 'node_modules/'+path);
+    'src/main.css',
+    'node_modules/react-image-crop/dist/ReactCrop.css',
+    'node_modules/antd/dist/antd.css'
+];
 
 gulp.task('copy-css', () => {
     return gulp.src(cssToCopy)
         .pipe(css())
+        .pipe(rename(function (file) {
+            file.basename = change.headerCase(file.basename).toLowerCase();
+        }))
         .pipe(gulp.dest('app/'));
 });
 
@@ -78,7 +87,7 @@ gulp.task('start', ['copy', 'build'], () => {
 });
 
 
-gulp.task('release', ['copy', 'build'], () => {
+gulp.task('release', ['clean', 'copy', 'build'], () => {
     spawn(cmd('electron-builder'), args(), { stdio: 'inherit' }).on('close', exit);
 });
 

@@ -9,6 +9,7 @@
   "description": "This is a convertion tool from RAF (Fugi Raw Format) to PNG with Resizing",
   "scripts": {
     "postinstall": "install-app-deps",
+    "clean": "gulp clean",
     "build": "gulp build",
     "start": "gulp start",
     "test": "gulp test",
@@ -16,8 +17,6 @@
   },
   "dependencies": {
     "antd": "^3.2.1",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-react": "^6.3.13",
     "image-size": "^0.6.2",
     "libraw": "^0.1.4",
     "mkdirp": "^0.5.1",
@@ -30,6 +29,11 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-plugin-import": "^1.6.5",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "change-case": "^3.0.2",
+    "del": "^3.0.0",
     "electron": "^1.4.3",
     "electron-builder": "^20.2.0",
     "electron-rebuild": "^1.7.3",
