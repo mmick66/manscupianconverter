@@ -20,11 +20,13 @@ npm start
 
 ## Packaging into an App
 
+This app uses `electron-builder` for compilation so put assets such as icons inside of the `build` folder
+
 ```bash
 npm package
 ```
 
-Then look inside the `pack` folder of this repo for the compiled app.
+Then look inside the `dist` folder of this repo for the compiled app.
 
 ## About the name and logo
 
