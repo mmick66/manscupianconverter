@@ -23,7 +23,7 @@ npm start
 This app uses `electron-builder` for compilation so put assets such as icons inside of the `build` folder
 
 ```bash
-npm package
+npm run release
 ```
 
 Then look inside the `dist` folder of this repo for the compiled app.
