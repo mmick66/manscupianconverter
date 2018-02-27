@@ -3,6 +3,8 @@ import Dropzone from 'react-dropzone';
 
 import { Button, Modal, Checkbox, message } from 'antd';
 
+import ReactCrop from 'react-image-crop';
+
 import Converter from './converter';
 
 import { shell, remote, ipcRenderer } from 'electron';
@@ -125,10 +127,14 @@ export default class ConvertArea extends React.Component {
 
         const thumbnail = (
             <div className={'imageContainer'}>
-                <img alt={'Thumbnail'} src={`${this.state.thumbnail}`} style={{ maxHeight: '100%', maxWidth: '100%' }} />
+                <img alt={'Thumbnail'} src={this.state.thumbnail} style={{ maxHeight: '100%', maxWidth: '100%' }} />
             </div>
 
         );
+
+        // const crop = (
+        //     <ReactCrop src="path/to/image.jpg" />
+        // );
 
         const dropZone = (
             <Dropzone className={'dropzone'} onDrop={this.onFilesDrop} onClick={() => {}}>
