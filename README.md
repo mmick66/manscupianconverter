@@ -9,6 +9,12 @@ You can download sample images to test the app [here](https://www.rawsamples.ch/
 
 It was built using [Electron](https://electronjs.org/) and [Antd](https://ant.design/) for the UI.
 
+## Supported Platforms
+
+* macOS Sierra
+
+This is due to the constraints imposed by the core convertion library used: [libraw](https://www.npmjs.com/package/libraw)
+
 ## Installation
 
 ```bash
