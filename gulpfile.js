@@ -45,10 +45,15 @@ const htmlFiles = [
     'src/*.html'
 ];
 
+const cssToCopy = [
+    'react-image-crop/dist/ReactCrop.css',
+    'antd/dist/antd.css'
+].map((path) => 'node_modules/'+path);
 
-
-gulp.task('copy-antd', () => {
-    return gulp.src('node_modules/antd/dist/antd.min.css').pipe(gulp.dest('app/'));
+gulp.task('copy-css', () => {
+    return gulp.src(cssToCopy)
+        .pipe(css())
+        .pipe(gulp.dest('app/'));
 });
 
 gulp.task('copy-html', () => {
@@ -59,7 +64,7 @@ gulp.task('copy-assets', () => {
     return gulp.src('assets/**/*').pipe(gulp.dest('app/assets'));
 });
 
-gulp.task('copy', ['copy-html', 'copy-assets', 'copy-antd']);
+gulp.task('copy', ['copy-html', 'copy-assets', 'copy-css']);
 
 
 /* Execute */

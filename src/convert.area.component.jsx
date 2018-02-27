@@ -65,6 +65,7 @@ export default class ConvertArea extends React.Component {
                 thumbnail: thumbpath,
             });
         }).catch((error) => {
+            console.log(error);
             Modal.error({
                 title: 'Error de conversión',
                 content: Defaults.Strings.CannotConvert,

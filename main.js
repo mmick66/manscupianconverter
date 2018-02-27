@@ -24,8 +24,6 @@ ipcMain.on(Defaults.Messages.ConvertionError, function(event, error) {
     mainWindow.webContents.send(Defaults.Messages.ConvertionError, error);
 });
 
-
-
 const isDevMode = process.execPath.match(/[\\/]electron/);
 
 const createMainWindow = () => {
