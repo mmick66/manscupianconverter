@@ -10,3 +10,6 @@ package-lock.json
 
 # Output Folder
 packed
+
+# App Folder
+app
