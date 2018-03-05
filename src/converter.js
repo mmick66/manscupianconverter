@@ -27,7 +27,6 @@ export default class Converter {
             for (let key in options.crop) this.crop[key] = options.crop[key] / 100.0;
         }
 
-
         this.format = Converter.Format.PNG;
 
         if (!fs.existsSync(this.dir.temp)) mkdirp.sync(this.dir.temp);
