@@ -6,8 +6,7 @@ let backWindow;
 
 ipcMain.on(Defaults.Messages.StartConvertion, function(event, path, crop) {
 
-    backWindow = new BrowserWindow({ show: true, width: 600,
-        height: 550,});
+    backWindow = new BrowserWindow({ show: false, });
 
     let url = `file://${__dirname}/background.html?image=${path}`;
 
@@ -16,8 +15,6 @@ ipcMain.on(Defaults.Messages.StartConvertion, function(event, path, crop) {
     }
 
     backWindow.loadURL(url);
-
-    backWindow.webContents.openDevTools();
 
     backWindow.on('closed', () => backWindow = null);
 

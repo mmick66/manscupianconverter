@@ -72,10 +72,8 @@ export default class Converter {
             libraw
                 .extractThumb(this.image.path, `${this.dir.temp}/${this.image.name}`) // adds 'thumb.jpg at the end
                 .then((path) => {
-
                     this.image.thumbnail = path;
-
-                    res(path);
+                    res(this.image);
 
                 }).catch((error) => rej(error));
         });
@@ -110,8 +108,6 @@ export default class Converter {
                 .extract(this.image.path, `${this.dir.temp}/${this.image.name}`)
                 .then((outpath) => {
 
-
-
                     let sharpAPI = sharp(outpath);
                     switch (this.format) {
                         case Converter.Format.PNG:
@@ -124,11 +120,9 @@ export default class Converter {
 
                     sharpAPI = sharpAPI.resize(this.size.width, this.size.height);
 
-
                     if (this.extract) {
                         sharpAPI.extract(this.extract);
                     }
-
 
                     const finalpath = `${this.dir.out}/${this.image.name}.${this.format.toLowerCase()}`
 

@@ -29,8 +29,7 @@ export default class ImageFile {
     }
 
     get ratio() {
-        if (!this.thumbnail) throw new Error('Needs to set thumbnail first');
-        return this._width / this._height;
+        return this.width / this.height;
     }
 
     set thumbnail(path) {

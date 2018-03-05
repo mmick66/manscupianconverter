@@ -67,8 +67,13 @@ export default class ConvertArea extends React.Component {
 
         const height = document.querySelector('.dropzone').clientHeight;
 
-        this.converter.load(file.path).then(() => {
+        this.converter.load(file.path).then((thumbnail) => {
 
+            this.setState({
+               crop: {
+                   aspect: thumbnail.ratio
+               }
+            });
             this.converter.resize(height).then(render => {
 
                 this.setState({
