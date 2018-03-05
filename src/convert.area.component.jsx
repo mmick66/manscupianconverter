@@ -10,7 +10,6 @@ import Converter from './converter';
 import { shell, remote, ipcRenderer } from 'electron';
 import Defaults from './defaults';
 import SettingsForm from './settings.form.component';
-import sharp from "sharp";
 
 export default class ConvertArea extends React.Component {
 
@@ -21,6 +20,7 @@ export default class ConvertArea extends React.Component {
             settingsModalOpen: false,
             thumbnail: null,
             openInPreview: true,
+            crop: {}
         };
 
         this.converter = new Converter();
@@ -133,35 +133,25 @@ export default class ConvertArea extends React.Component {
         });
     }
 
-    onCropChange(arg) {
-        console.log(arg);
-    }
-
-    static makeCropArea(source, onChange) {
-        return (
-            <ReactCrop src={source} onChange={onChange} />
-        );
-    }
-
-    static makeDropZone(dropHandler) {
-        return (
-            <Dropzone className={'mainAreaContent dropzone'}
-                      onDrop={dropHandler}
-                      onClick={() => {}}>
-                <p className={'dropText'}>{Defaults.Strings.DragHere}</p>
-            </Dropzone>
-        );
+    onCropChange(crop) {
+        this.setState({ crop });
     }
 
     render() {
 
+
+
         return (
           <div>
-
               <div className={'mainArea'}>
                   { this.state.thumbnail ?
-                      ConvertArea.makeCropArea(this.state.thumbnail, this.onCropChange) :
-                      ConvertArea.makeDropZone(this.onFilesDrop) }
+                      <ReactCrop src={this.state.thumbnail} onChange={this.onCropChange} crop={this.state.crop} /> :
+                      <Dropzone className={'mainAreaContent dropzone'}
+                                onDrop={this.onFilesDrop}
+                                onClick={() => {}}>
+                          <p className={'dropText'}>{Defaults.Strings.DragHere}</p>
+                      </Dropzone>
+                  }
               </div>
 
               <div className={'controls'}>
