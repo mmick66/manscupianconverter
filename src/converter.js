@@ -23,18 +23,10 @@ export default class Converter {
         };
 
         if (options.crop) {
-
-            for (let key in options.crop) options.crop[key] /= 100.0;
-
-            console.log(options.crop);
-
-            this.extract = {
-                left: Math.round(this.size.width * options.crop.x),
-                top: Math.round(this.size.height * options.crop.y),
-                width: Math.round(this.size.width * options.crop.width),
-                height: Math.round(this.size.height * options.crop.height),
-            };
+            this.crop = {};
+            for (let key in options.crop) this.crop[key] = options.crop[key] / 100.0;
         }
+
 
         this.format = Converter.Format.PNG;
 
@@ -108,6 +100,8 @@ export default class Converter {
                 .extract(this.image.path, `${this.dir.temp}/${this.image.name}`)
                 .then((outpath) => {
 
+                    const size = ImageFile.size(outpath);
+
                     let sharpAPI = sharp(outpath);
                     switch (this.format) {
                         case Converter.Format.PNG:
@@ -118,11 +112,16 @@ export default class Converter {
                             break;
                     }
 
-                    sharpAPI = sharpAPI.resize(this.size.width, this.size.height);
-
-                    if (this.extract) {
-                        sharpAPI.extract(this.extract);
+                    if (this.crop) {
+                        sharpAPI.extract({
+                            left: Math.round(size.width * this.crop.x),
+                            top: Math.round(size.height * this.crop.y),
+                            width: Math.round(size.width * this.crop.width),
+                            height: Math.round(size.height * this.crop.height),
+                        });
                     }
+
+                    sharpAPI = sharpAPI.resize(this.size.width, this.size.height);
 
                     const finalpath = `${this.dir.out}/${this.image.name}.${this.format.toLowerCase()}`
 

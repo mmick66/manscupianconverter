@@ -4,9 +4,7 @@ import sizeOf from "image-size";
 export default class ImageFile {
 
     constructor(fileFullPath) {
-
         this.parsed = path.parse(fileFullPath);
-
     }
 
     get name() {
@@ -34,7 +32,7 @@ export default class ImageFile {
 
     set thumbnail(path) {
         this._thumbnail = path;
-        const size  = sizeOf(path);
+        const size = ImageFile.size(path);
         this._width  = size.width;
         this._height = size.height;
     }
@@ -43,6 +41,8 @@ export default class ImageFile {
         return this._thumbnail;
     }
 
-
+    static size(path) {
+        return sizeOf(path);
+    }
 
 };

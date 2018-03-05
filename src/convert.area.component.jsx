@@ -70,12 +70,12 @@ export default class ConvertArea extends React.Component {
         this.converter.load(file.path).then((thumbnail) => {
 
             this.setState({
-               crop: {
-                   aspect: thumbnail.ratio
-               }
+                crop: {
+                    aspect: thumbnail.ratio
+                }
             });
-            this.converter.resize(height).then(render => {
 
+            this.converter.resize(height).then(render => {
                 this.setState({
                     thumbnail: render
                 })
@@ -139,7 +139,6 @@ export default class ConvertArea extends React.Component {
     }
 
     onCropChange(crop) {
-        console.log(crop);
         this.setState({ crop });
     }
 
