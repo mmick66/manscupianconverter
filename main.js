@@ -4,11 +4,20 @@ import Defaults from './defaults';
 let mainWindow;
 let backWindow;
 
-ipcMain.on(Defaults.Messages.StartConvertion, function(event, path) {
+ipcMain.on(Defaults.Messages.StartConvertion, function(event, path, crop) {
 
-    backWindow = new BrowserWindow({ show: false, });
+    backWindow = new BrowserWindow({ show: true, width: 600,
+        height: 550,});
 
-    backWindow.loadURL(`file://${__dirname}/background.html?image=${path}`);
+    let url = `file://${__dirname}/background.html?image=${path}`;
+
+    if (crop.x) {
+        url += `&x=${crop.x}&y=${crop.y}&width=${crop.width}&height=${crop.height}`
+    }
+
+    backWindow.loadURL(url);
+
+    backWindow.webContents.openDevTools();
 
     backWindow.on('closed', () => backWindow = null);
 

@@ -91,7 +91,7 @@ export default class ConvertArea extends React.Component {
 
         this.setState({ converting: true });
 
-        ipcRenderer.send(Defaults.Messages.StartConvertion, this.converter.image.path);
+        ipcRenderer.send(Defaults.Messages.StartConvertion, this.converter.image.path, this.state.crop);
 
     }
 
@@ -134,6 +134,7 @@ export default class ConvertArea extends React.Component {
     }
 
     onCropChange(crop) {
+        console.log(crop);
         this.setState({ crop });
     }
 

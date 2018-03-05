@@ -1,7 +1,6 @@
 import mkdirp from "mkdirp";
 import libraw from "libraw";
 import sharp from "sharp";
-import sizeOf from "image-size";
 import fs from 'fs';
 
 import Defaults from './defaults';
@@ -22,6 +21,20 @@ export default class Converter {
             temp: options.temp || Defaults.Paths.Temp,
             out: options.out || Defaults.Paths.Out
         };
+
+        if (options.crop) {
+
+            for (let key in options.crop) options.crop[key] /= 100.0;
+
+            console.log(options.crop);
+
+            this.extract = {
+                left: Math.round(this.size.width * options.crop.x),
+                top: Math.round(this.size.height * options.crop.y),
+                width: Math.round(this.size.width * options.crop.width),
+                height: Math.round(this.size.height * options.crop.height),
+            };
+        }
 
         this.format = Converter.Format.PNG;
 
@@ -97,7 +110,7 @@ export default class Converter {
                 .extract(this.image.path, `${this.dir.temp}/${this.image.name}`)
                 .then((outpath) => {
 
-                    console.log(this.format);
+
 
                     let sharpAPI = sharp(outpath);
                     switch (this.format) {
@@ -109,10 +122,17 @@ export default class Converter {
                             break;
                     }
 
-                    const finalpath = `${this.dir.out}/${this.image.name}.${this.format.toLowerCase()}`;
+                    sharpAPI = sharpAPI.resize(this.size.width, this.size.height);
+
+
+                    if (this.extract) {
+                        sharpAPI.extract(this.extract);
+                    }
+
+
+                    const finalpath = `${this.dir.out}/${this.image.name}.${this.format.toLowerCase()}`
 
                     sharpAPI
-                        .resize(this.size.width, this.size.height)
                         .toFile(finalpath)
                         .then(() => res(finalpath), (error) => rej(error));
 
