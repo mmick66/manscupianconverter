@@ -18,7 +18,8 @@ const Values = {
 
 const Strings = {
     ValueNotNumeric: 'El valor no es numérico',
-    DragHere: 'Prueba a soltar algunos archivos aquí...',
+    DragHere: 'Prueba a soltar algunos archivos RAW aquí',
+    OrClickToUpload: 'o haga clic para cargar desde su unidad local',
     CannotConvert: 'No se pudo convertir esta imagen. Asegúrese de que sea de formato RAW y se puede abrir con Preview',
     CannotSelectDir: 'No se pudo seleccionar el directorio',
     SelectedDirectory: 'Nuevo directorio seleccionado',

@@ -19,7 +19,7 @@ export default class ConvertArea extends React.Component {
             files: [],
             settingsModalOpen: false,
             thumbnail: null,
-            openInPreview: true,
+            openInPreview: false,
             crop: {}
         };
 
@@ -144,8 +144,6 @@ export default class ConvertArea extends React.Component {
 
     render() {
 
-
-
         return (
           <div>
               <div className={'mainArea'}>
@@ -154,7 +152,7 @@ export default class ConvertArea extends React.Component {
                       <Dropzone className={'mainAreaContent dropzone'}
                                 onDrop={this.onFilesDrop}
                                 onClick={() => {}}>
-                          <p className={'dropText'}>{Defaults.Strings.DragHere}</p>
+                          <p className={'dropText'}>{Defaults.Strings.DragHere},<br/>{Defaults.Strings.OrClickToUpload}...</p>
                       </Dropzone>
                   }
               </div>
