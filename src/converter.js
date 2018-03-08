@@ -81,7 +81,7 @@ export default class Converter {
                 console.log('Error in opening files to clean');
                 return;
             }
-            files.filter(files, fs.unlink);
+            files.map(file => `${this.dir.temp}/${file}`).forEach(path => fs.unlink(path));
         });
         this.image = null;
 
