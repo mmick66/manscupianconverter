@@ -3,8 +3,12 @@ import libraw from "libraw";
 import sharp from "sharp";
 import fs from 'fs';
 
+import glob from 'glob';
+
 import Defaults from './defaults';
 import ImageFile from "./file";
+
+
 
 export default class Converter {
 
@@ -61,13 +65,26 @@ export default class Converter {
         return new Promise((res, rej) => {
 
             libraw
-                .extractThumb(this.image.path, `${this.dir.temp}/${this.image.name}`) // adds 'thumb.jpg at the end
+                .extractThumb(this.image.path, `${this.dir.temp}/${this.image.name}`) // NOTE: adds 'thumb.jpg' at the end
                 .then((path) => {
                     this.image.thumbnail = path;
                     res(this.image);
 
                 }).catch((error) => rej(error));
         });
+    }
+
+    clear() {
+
+        glob(`${this.image.name}*`, { cwd: this.dir.temp, dot: true },  (err, files) => {
+            if (err) {
+                console.log('Error in opening files to clean');
+                return;
+            }
+            files.filter(files, fs.unlink);
+        });
+        this.image = null;
+
     }
 
 
@@ -79,7 +96,7 @@ export default class Converter {
 
             const width = Math.round(height * this.image.ratio);
 
-            const out = `${this.dir.temp}/${this.image.name}.render.jpg`;
+            const out = `${this.dir.temp}/${this.image.name}.resized.jpg`;
 
             return sharp(this.image.thumbnail)
                 .resize(width, height)

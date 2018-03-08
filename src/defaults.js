@@ -1,10 +1,10 @@
 import os from 'os';
 
-const defpath = os.homedir() + '/MancuspiaConvert';
+const defpath = os.homedir() + '/MancuspiaConverter';
 
 const Paths = {
     Out: defpath,
-    Temp: defpath
+    Temp: defpath + '/temp'
 };
 
 const Size = {

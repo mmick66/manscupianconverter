@@ -38,6 +38,8 @@ export default class ConvertArea extends React.Component {
         ipcRenderer.on(Defaults.Messages.ConvertionComplete, (event, outpath) => {
             this.setState({ converting: false, thumbnail: null, });
 
+            this.converter.clear();
+
             if (this.state.openInPreview) {
                 shell.openItem(outpath);
             } else {
@@ -88,7 +90,6 @@ export default class ConvertArea extends React.Component {
                 content: Defaults.Strings.CannotConvert,
             });
         });
-
     }
 
 
