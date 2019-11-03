@@ -14,3 +14,6 @@ packed
 # App Folder
 app
 dist
+
+#IDE
+.idea
